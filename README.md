@@ -8,7 +8,7 @@ Public data only. Every chart and every folder credits its sources.
 
 | Post | Publishes | Folder | Status |
 | --- | --- | --- | --- |
-| Percentiles: the 10th tells you who's suffering | Oct 14, 2026 | [`percentiles/`](percentiles/) | Coming soon |
+| Percentiles: the 10th tells you who's suffering | Oct 14, 2026 | [`percentiles/`](percentiles/) | Live |
 | How many speed tests is enough? Sample size | Oct 21, 2026 | [`sample-size/`](sample-size/) | Coming soon |
 | SQL or Python? Yes. | Oct 13, 2026 | [`sql-or-python/`](sql-or-python/) | Live        |
 | The data that isn't there: Hurricane Beryl | Nov 4, 2026 | [`beryl/`](beryl/) | Coming soon |
