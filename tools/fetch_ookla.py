@@ -9,6 +9,7 @@ Usage:
     pip install duckdb
     python3 fetch_ookla.py            # 2025, writes texas_fixed_2025.parquet
     python3 fetch_ookla.py 2024       # any year from 2023 on (tile_x/tile_y exist from Q3 2023)
+    python3 fetch_ookla.py 2024 mobile  # mobile (cellular) tiles instead of fixed, writes texas_mobile_2024.parquet
 
 Data: Speedtest by Ookla Global Fixed and Mobile Network Performance Maps,
 CC BY-NC-SA 4.0. https://registry.opendata.aws/speedtest-global-performance
@@ -19,18 +20,21 @@ import time
 import duckdb
 
 YEAR = int(sys.argv[1]) if len(sys.argv) > 1 else 2025
+KIND = sys.argv[2] if len(sys.argv) > 2 else "fixed"
+if KIND not in ("fixed", "mobile"):
+    raise SystemExit("Second argument must be 'fixed' or 'mobile'.")
 
 # Generous Texas bounding box (lon/lat). Counties get assigned later with a
 # proper point-in-polygon join, so a few Oklahoma/Louisiana/Mexico tiles near
 # the edges are fine here.
 XMIN, XMAX, YMIN, YMAX = -106.65, -93.50, 25.83, 36.50
 
-BASE = "https://ookla-open-data.s3.amazonaws.com/parquet/performance/type=fixed"
+BASE = f"https://ookla-open-data.s3.amazonaws.com/parquet/performance/type={KIND}"
 urls = [
-    f"{BASE}/year={YEAR}/quarter={q}/{YEAR}-{(q - 1) * 3 + 1:02d}-01_performance_fixed_tiles.parquet"
+    f"{BASE}/year={YEAR}/quarter={q}/{YEAR}-{(q - 1) * 3 + 1:02d}-01_performance_{KIND}_tiles.parquet"
     for q in range(1, 5)
 ]
-out = f"texas_fixed_{YEAR}.parquet"
+out = f"texas_{KIND}_{YEAR}.parquet"
 
 con = duckdb.connect()
 con.sql("INSTALL httpfs; LOAD httpfs;")
