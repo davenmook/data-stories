@@ -74,7 +74,7 @@ for k, (year, color) in enumerate(((2023, style.NEUTRAL), (2024, style.TEAL))):
         ax.text(b.get_x() + b.get_width() / 2, val + (0.6 if val >= 0 else -0.6), f"{val:+.0f}%", ha="center",
                 va="bottom" if val >= 0 else "top", fontsize=9, color=style.FG)
 ax.axhline(0, color=style.MUTED, linewidth=1)
-ax.set_xticks(x, names)
+ax.set_xticks(x, names, rotation=30, ha="right", rotation_mode="anchor")
 ax.set_ylabel("Change in mean mobile download, Q2 to Q3")
 ax.set_title("Mobile speeds from Q2 to Q3: only Houston went backwards in 2024")
 ax.legend(loc="upper left")
