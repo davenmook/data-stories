@@ -11,7 +11,8 @@ Matagorda, Wharton and Austin.
 Input:  ../data/texas_fixed_2023.parquet, ../data/texas_fixed_2024.parquet  (tools/fetch_ookla.py)
         ../data/us_counties.geojson (downloaded automatically if missing)
 Output: ../data/beryl/speedtest_q2_q3.csv
-        charts/speedtest-q2-q3.{svg,png}
+        ../data/beryl/speedtest_q2_q3_by_speed_houston.csv
+        charts/speedtest-q2-q3.{svg,png}, charts/speedtest-by-speed.{svg,png}
 """
 import sys
 from pathlib import Path
@@ -71,3 +72,42 @@ ax.legend(loc="upper left")
 ax.grid(axis="x", visible=False)
 style.credit(fig, text=style.OOKLA_CREDIT + ".\nHouston area = 11 counties around Houston.")
 style.save(fig, HERE / "charts" / "speedtest-q2-q3")
+
+# ---- By speed bin: did Beryl push tests into the slow bins? ----
+# Each tile is binned by its average download speed that quarter. Tiles can move between
+# bins as networks get faster, so this shows where tests landed, not the same tiles over time.
+BINS = [0, 25, 100, 250, 500, float("inf")]
+LABELS = ["Under 25", "25-100", "100-250", "250-500", "500+"]
+brow = []
+for year in (2023, 2024):
+    t = pd.read_parquet(DATA / f"texas_fixed_{year}.parquet")
+    t = t[t["quarter"].isin([2, 3])]
+    pts = gpd.GeoDataFrame(t, geometry=gpd.points_from_xy(t["tile_x"], t["tile_y"]), crs="EPSG:4326")
+    j = gpd.sjoin(pts, tx, predicate="within", how="inner")
+    j = j[j["county"].isin(HOUSTON)]
+    j["speed_bin"] = pd.cut(j["avg_d_kbps"] / 1000, bins=BINS, labels=LABELS, right=False)
+    q = j.groupby(["speed_bin", "quarter"], observed=True)["tests"].sum().unstack()
+    for b, r in q.iterrows():
+        brow.append({"year": year, "speed_bin_mbps": b, "q2_tests": int(r[2]), "q3_tests": int(r[3]),
+                     "change_pct": round((r[3] / r[2] - 1) * 100, 1)})
+bins_df = pd.DataFrame(brow)
+bins_df.to_csv(DATA / "beryl" / "speedtest_q2_q3_by_speed_houston.csv", index=False)
+print("\nHouston area, Q2 to Q3 change in tests by tile speed (Mbps):")
+print(bins_df.pivot(index="speed_bin_mbps", columns="year", values="change_pct").loc[LABELS].to_string())
+
+fig, ax = plt.subplots(figsize=(9, 4.4))
+x = np.arange(len(LABELS))
+for k, (year, color) in enumerate(((2023, style.NEUTRAL), (2024, style.TEAL))):
+    v = bins_df[bins_df["year"] == year].set_index("speed_bin_mbps").loc[LABELS, "change_pct"].to_numpy()
+    bars = ax.bar(x + (k - 0.5) * 0.38, v, width=0.36, color=color, label=str(year))
+    for b, val in zip(bars, v):
+        ax.text(b.get_x() + b.get_width() / 2, val + (1 if val >= 0 else -1), f"{val:+.0f}%", ha="center",
+                va="bottom" if val >= 0 else "top", fontsize=9, color=style.FG)
+ax.axhline(0, color=style.MUTED, linewidth=1)
+ax.set_xticks(x, [f"{l} Mbps" for l in LABELS])
+ax.set_ylabel("Change in speed tests, Q2 to Q3")
+ax.set_title("Houston area: where the Q3 speed tests landed, by tile speed")
+ax.legend(loc="upper left")
+ax.grid(axis="x", visible=False)
+style.credit(fig, text=style.OOKLA_CREDIT + ".\nTiles binned by average download speed each quarter.")
+style.save(fig, HERE / "charts" / "speedtest-by-speed")
