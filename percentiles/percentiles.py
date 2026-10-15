@@ -118,7 +118,7 @@ ax.set_xlabel(f"Tile average download speed (Mbps, tiles above {cap:,.0f} groupe
 ax.set_ylabel("Speed tests")
 ax.yaxis.set_major_formatter(lambda v, _: f"{v / 1000:,.0f}k" if v >= 1000 else f"{v:,.0f}")
 ax.grid(axis="x", visible=False)
-style.credit(fig)
+style.credit(fig, text=style.OOKLA_CREDIT + " (fixed tiles).")
 style.save(fig, HERE / "charts" / "texas-distribution")
 
 # 3b. Same median, different 10th percentile
@@ -137,7 +137,7 @@ ax.set_yticks(range(len(pair)), [f"{n} County" for n in pair["county"]])
 ax.set_ylim(-0.7, len(pair) - 0.3)
 ax.set_xlim(left=0)
 ax.set_xlabel("Download speed (Mbps): 10th percentile, median and 90th percentile")
-ax.set_title(f"Same median, very different bottom 10% (Q{QUARTER} 2025)")
+ax.set_title(f"Same median, very different bottom 10% (fixed broadband, Q{QUARTER} 2025)")
 ax.grid(axis="y", visible=False)
-style.credit(fig)
+style.credit(fig, text=style.OOKLA_CREDIT + " (fixed tiles).")
 style.save(fig, HERE / "charts" / "same-median-different-p10")

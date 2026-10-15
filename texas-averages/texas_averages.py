@@ -91,10 +91,10 @@ ax.set_ylim(lim)
 ax.set_aspect("equal")
 ax.set_xlabel("Median download, Mbps (the middle test)")
 ax.set_ylabel("Mean download, Mbps (the average)")
-ax.set_title(f"Where the average flatters Texas counties (Q{QUARTER} 2025)")
+ax.set_title(f"Where the average flatters Texas counties (fixed broadband, Q{QUARTER} 2025)")
 ax.text(0.02, 0.98, f"Above the line: the average looks faster\nthan a typical test ({above} of {len(c)} counties)",
         transform=ax.transAxes, va="top", fontsize=9, color=style.SAGE)
 ax.text(0.98, 0.04, "Below: the average undersells it", transform=ax.transAxes, ha="right", fontsize=9,
         color=style.MUTED)
-style.credit(fig, text=style.OOKLA_CREDIT + f".\nTexas counties with {MIN_TESTS:,}+ tests; dot size = number of tests.")
+style.credit(fig, text=style.OOKLA_CREDIT + f" (fixed tiles).\nTexas counties with {MIN_TESTS:,}+ tests; dot size = number of tests.")
 style.save(fig, HERE / "charts" / "mean-vs-median")
