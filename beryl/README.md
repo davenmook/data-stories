@@ -6,7 +6,7 @@ When Hurricane Beryl knocked out power across the Houston area in July 2024, did
 
 - **Active probing (IODA) saw it clearly.** About 1 in 10 Texas address blocks stopped answering after landfall (4 a.m. Jul 8), and it took a week to get back to 99%. The same days in 2023 stayed flat.
 - **Routing (BGP) barely moved.** Networks kept announcing themselves while the people behind them were offline.
-- **Mobile speeds did notice.** The Houston area was the only big Texas metro where average mobile download fell from Q2 to Q3 2024 (-6%, after +11% in 2023), while Dallas-Fort Worth, Austin, San Antonio and El Paso all got faster. Congestion and storm-damaged cell sites both slow mobile down, and this data can't separate them.
+- **Mobile speeds did notice.** The Houston area was the only big Texas metro where average mobile download fell from Q2 to Q3 2024 (-6%, after +11% in 2023), while Dallas-Fort Worth, Austin, San Antonio and El Paso all got faster. Congestion and storm-damaged cell sites both slow mobile down, and this data can't separate them. (Updated Oct 16, 2026: one ~600 m tile in Tarrant County held over half of Dallas-Fort Worth's mobile tests in 2023, so tiles holding more than 10% of a metro's tests in a quarter are now left out. Only the Dallas-Fort Worth numbers change, from +8%/+13% to +12%/+12%.)
 - **Quarterly fixed speed test counts can't see it.** Houston-area tests rose 12.1% from Q2 to Q3 2024, but after comparing with the rest of Texas and with 2023, Houston's extra growth is under 1 point. Split by tile speed, the slow bins shrank faster than in 2023 and the growth was at the fast end, so there's no sign of storm-slowed connections either.
 
 ![Texas reachability](charts/texas-reachability.png)

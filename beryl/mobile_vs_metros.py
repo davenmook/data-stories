@@ -9,6 +9,12 @@ blur a week-long event, slower speeds can also come from storm-damaged cell site
 data can't tell those apart), and total mobile test volume in the open data changes a lot
 between years, so compare changes, not raw counts.
 
+One busy tile: a single ~600 m tile in Tarrant County held 55 to 59% of all Dallas-Fort Worth
+mobile tests in Q2 and Q3 2023 (and a neighbouring tile another 11%). A test-weighted average
+of the metro is then mostly that one tile. So any tile holding more than 10% of its metro's
+tests in a quarter is left out (BUSY_TILE below); the script prints which ones. That only
+touches Dallas-Fort Worth; no tile elsewhere tops 6%.
+
 Input:  ../data/texas_mobile_2023.parquet, ../data/texas_mobile_2024.parquet
         (python3 tools/fetch_ookla.py 2024 mobile, and 2023)
 Output: ../data/beryl/mobile_q2_q3_metros.csv
@@ -35,6 +41,7 @@ METROS = {
     "San Antonio": ["Bexar"],
     "El Paso": ["El Paso"],
 }
+BUSY_TILE = 0.10   # leave out a tile holding more than this share of its metro's tests in a quarter
 COUNTIES_URL = "https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json"
 
 path = DATA / "us_counties.geojson"
@@ -50,6 +57,11 @@ for year in (2023, 2024):
     j["d_mbps"] = j["avg_d_kbps"] / 1000
     for metro, cs in METROS.items():
         m = j[j["county"].isin(cs)]
+        share = m["tests"] / m.groupby("quarter")["tests"].transform("sum")
+        for _, b in m[share > BUSY_TILE].iterrows():
+            print(f"left out: {metro} {year} Q{b['quarter']} tile {b['quadkey']} "
+                  f"({int(b['tests']):,} tests, {b['tests'] / m[m['quarter'] == b['quarter']]['tests'].sum():.0%})")
+        m = m[share <= BUSY_TILE]
         q = m.groupby("quarter").apply(lambda df: pd.Series({
             "tests": df["tests"].sum(), "mean_mbps": (df["d_mbps"] * df["tests"]).sum() / df["tests"].sum()}),
             include_groups=False)
@@ -79,5 +91,6 @@ ax.set_ylabel("Change in mean mobile download, Q2 to Q3")
 ax.set_title("Mobile speeds from Q2 to Q3: only Houston went backwards in 2024")
 ax.legend(loc="upper left")
 ax.grid(axis="x", visible=False)
-style.credit(fig, text=style.OOKLA_CREDIT + " (mobile tiles).\nMetro areas by county; mean weighted by tests.")
+style.credit(fig, text=style.OOKLA_CREDIT + " (mobile tiles).\nMetro areas by county; mean weighted by tests;"
+             " tiles with over 10% of a metro's tests left out.")
 style.save(fig, HERE / "charts" / "mobile-speed-metros")

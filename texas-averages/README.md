@@ -51,6 +51,24 @@ This compares counties, not households. A rural county can be both lower income 
 - **Mean** is exact: each tile's average speed times its test count, summed, divided by all tests.
 - **Median** is the middle test, approximated from tile averages (test-weighted; same method as [`percentiles/`](../percentiles/)).
 
+## Part 3: fixed vs mobile
+
+Same question, asked separately for Ookla's fixed tiles (home broadband) and mobile tiles (cellular). They're separate datasets with no provider or technology split. Both panels use Q4 2025.
+
+```
+python3 ../tools/fetch_ookla.py 2025 mobile && mv texas_mobile_2025.parquet ../data/
+python3 fixed_vs_mobile.py          # Q4 2025 (add 2024 for Q4 2024)
+```
+
+![Income barely predicts speed, fixed or mobile](charts/fixed-vs-mobile-income.png)
+
+- **Fixed:** 89 counties with 2,000+ tests, rank correlation 0.18. **Mobile:** 45 counties with 500+ tests, 0.28. Both weak, so there's no trend line: a fitted line would point at a slope the data barely has. The dashed line is the middle county instead.
+- **Cameron and Hidalgo flip.** Some of the fastest counties on fixed (449 and 416 Mbps), and near the bottom on mobile (143 and 145). They have the biggest fixed-to-mobile gaps in the state.
+- **Rockwall and Wichita are the only counties where mobile beats fixed** (by about 49 Mbps each). Every other county with enough tests is faster on fixed.
+- **Reeves** is the slowest fixed county (62 Mbps). **Kendall** has one of the highest incomes ($114,962) but a fixed median of 197 Mbps.
+- **Collin's mobile number is one tile.** One ~600 m tile holds 90% of Collin's 87,218 mobile tests (68 devices), and 29% of all Texas mobile tests that quarter. Collin's mobile median is really that tile's average, so it's drawn hollow. Earlier quarters have a similar busy tile in Tarrant County.
+- **Caveats:** mobile has far fewer tests per county, and its correlation moves with the bar (0.18 at 1,000+ tests, 21 counties). In Q4 2024 mobile came out at 0.41, so don't lean on one quarter. Medians come from tile averages weighted by tests, and tiles are placed in a county by their centre point. Counties, not households: a pattern, not a cause.
+
 ## Sources
 
 - Speedtest® by Ookla® Global Fixed and Mobile Network Performance Maps, fixed tiles, Q4 2025. Based on analysis by Ookla of Speedtest Intelligence® data. [registry.opendata.aws/speedtest-global-performance](https://registry.opendata.aws/speedtest-global-performance). CC BY-NC-SA 4.0. Ookla trademarks used under license and reprinted with permission.
