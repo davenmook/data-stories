@@ -9,7 +9,7 @@ Public data only. Every chart and every folder credits its sources.
 | Post | Publishes | Folder | Status |
 | --- | --- | --- | --- |
 | Percentiles: the 10th tells you who's suffering | Oct 14, 2026 | [`percentiles/`](percentiles/) | Live |
-| How many speed tests is enough? Sample size | Nov 4, 2026 | [`sample-size/`](sample-size/) | Coming soon |
+| [How many samples are enough?](https://davenoel.me/notes/how-many-samples.html) | Oct 19, 2026 | [`sample-size/`](sample-size/) | Live |
 | SQL or Python? Yes. | Oct 13, 2026 | [`sql-or-python/`](sql-or-python/) | Live        |
 | [The data that isn't there: Hurricane Beryl](https://davenoel.me/stories/the-data-that-isnt-there.html) | Oct 15, 2026 | [`beryl/`](beryl/) | Live |
 | Same average, different internet: variance | Nov 11, 2026 | [`variance/`](variance/) | Coming soon |

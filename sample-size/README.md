@@ -1,6 +1,6 @@
 # How many samples are enough?
 
-**Post:** publishes Nov 4, 2026 on [davenoel.me](https://davenoel.me) (link added when it's live)
+**Post:** [How many samples are enough?](https://davenoel.me/notes/how-many-samples.html) on davenoel.me, Oct 19, 2026
 
 A simulated city with a known speed distribution: 85% of tests from a fast group (median 250 Mbps), 15% from a slow tail (median 25 Mbps). Draw n tests from it, thousands of times, and watch how far the median and the 10th percentile wander from the truth.
 
