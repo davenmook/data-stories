@@ -1,18 +1,16 @@
-"""How many speed tests is enough? A sample-size simulator.
+"""How many samples are enough? A sample-size simulator.
 
-Companion to the post "How many speed tests is enough? Sample size" (davenoel.me).
+Companion to the post "How many samples are enough?" (davenoel.me).
 
-The idea: pretend we know the true speed distribution of a made-up town, then
-draw n tests from it, again and again, and see how far the measured median and
-10th percentile wander from the truth. Small n, lots of wobble. Big n, the
-wobble settles down. The interesting part is how much faster the median settles
-than the 10th percentile does.
+The idea: take a simulated city whose true speed distribution we know, draw n
+tests from it, again and again, and see how far the measured median and 10th
+percentile wander from the truth. Small n, lots of wobble. Big n, the wobble
+settles down. The fun part is how much faster the median settles than the
+10th percentile does.
 
-Why made-up? Ookla's open data gives each ~600 m tile the AVERAGE of its tests
-plus a count, not the individual tests, so we can't resample real tests from it.
-A simulated town lets us know the right answer and measure the error exactly.
+Knowing the right answer is the whole trick: it lets us measure the miss exactly.
 
-The town: most homes on a fast connection, plus a slow tail (old DSL, a busy
+The city: most homes on a fast connection, plus a slow tail (old DSL, a busy
 evening, a far corner of the house). Both parts are lognormal, which is the usual
 shape for speed data: bunched up at the low end, long tail to the right.
 
@@ -22,7 +20,7 @@ Usage:
     python3 simulate.py --seed 7        # different random draws, same answer shape
 
 Output: results.csv (one row per n) and a plain-text table in the terminal.
-The chart comes next, in chart.py.
+The follow-up questions from the post live in use_cases.py.
 
 No external data needed. numpy + pandas only.
 """
@@ -34,7 +32,7 @@ import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 
-# The made-up town. Medians in Mbps; sigma is the lognormal spread.
+# The simulated city. Medians in Mbps; sigma is the lognormal spread.
 FAST_MEDIAN, FAST_SIGMA = 250.0, 0.45
 SLOW_MEDIAN, SLOW_SIGMA = 25.0, 0.70
 SLOW_SHARE = 0.15                      # 15% of tests come from the slow tail
@@ -43,7 +41,7 @@ SIZES = [10, 20, 30, 50, 75, 100, 200, 300, 500, 1000, 2000, 5000]
 
 
 def draw(rng, size):
-    """Draw speed tests from the made-up town. `size` can be an int or a shape."""
+    """Draw speed tests from the simulated city. `size` can be an int or a shape."""
     slow = rng.random(size) < SLOW_SHARE
     fast_mbps = rng.lognormal(np.log(FAST_MEDIAN), FAST_SIGMA, size)
     slow_mbps = rng.lognormal(np.log(SLOW_MEDIAN), SLOW_SIGMA, size)
@@ -51,7 +49,7 @@ def draw(rng, size):
 
 
 def true_values(rng, n=4_000_000):
-    """The town's 'real' median and p10, from one enormous sample."""
+    """The city's true median and p10, from one enormous sample."""
     big = draw(rng, n)
     return float(np.median(big)), float(np.percentile(big, 10))
 
@@ -71,7 +69,7 @@ def main():
 
     rng = np.random.default_rng(args.seed)
     true_med, true_p10 = true_values(rng)
-    print(f"Made-up town, true median {true_med:.0f} Mbps, true p10 {true_p10:.0f} Mbps")
+    print(f"Simulated city, true median {true_med:.0f} Mbps, true p10 {true_p10:.0f} Mbps")
     print(f"{args.trials:,} trials per sample size\n")
 
     rows = []

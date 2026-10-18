@@ -1,17 +1,18 @@
-# How many speed tests is enough? Sample size
+# How many samples are enough?
 
 **Post:** publishes Nov 4, 2026 on [davenoel.me](https://davenoel.me) (link added when it's live)
 
-A little simulator: draw n tests and watch the median and p10 wobble as n grows.
+A simulated city with a known speed distribution: 85% of tests from a fast group (median 250 Mbps), 15% from a slow tail (median 25 Mbps). Draw n tests from it, thousands of times, and watch how far the median and the 10th percentile wander from the truth.
 
 ## Run it
 
 ```bash
-python3 simulate.py            # writes results.csv, prints a table
+python3 simulate.py      # writes results.csv and prints the wobble table
+python3 use_cases.py     # the follow-up questions: 90th percentile, share under 25 Mbps, city vs city, slicing by hour
 ```
 
-`simulate.py` invents a town with a known speed distribution (mostly fast, with a slow tail), draws n tests from it 2,000 times per n, and measures how far the median and 10th percentile wander from the truth. No downloads needed.
+Add `--seed 7` to either one for different draws with the same overall shape. No downloads needed, just numpy and pandas.
 
-First look: the median settles fast (about 5% typical error by 100 tests), but the 10th percentile is a lot jumpier and needs roughly ten times as many tests to settle down as much. Chart and the plain-English answer coming next.
+## The plain-English answer
 
-Why simulated? Ookla's open data gives tile averages and test counts, not individual tests, so there's nothing real to resample. A made-up town means we know the right answer and can measure the miss exactly.
+The median steadies (typical miss under 5%) at ~100 tests. The 10th percentile needs ~2,000 to 3,000 to get as steady, because it lives in the thin part of the distribution where few tests land. The post walks through the math: error shrinks with the square root of n, and the 10th percentile starts out about 5.7 times as uncertain, so it needs about 32 times the tests.
