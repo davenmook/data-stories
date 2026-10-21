@@ -8,14 +8,15 @@ Public data only. Every chart and every folder credits its sources.
 
 | Post | Publishes | Folder | Status |
 | --- | --- | --- | --- |
-| Percentiles: the 10th tells you who's suffering | Oct 14, 2026 | [`percentiles/`](percentiles/) | Live |
-| [How many samples are enough?](https://davenoel.me/notes/how-many-samples.html) | Oct 19, 2026 | [`sample-size/`](sample-size/) | Live |
-| SQL or Python? Yes. | Oct 13, 2026 | [`sql-or-python/`](sql-or-python/) | Live        |
+| [SQL or Python? Yes.](https://davenoel.me/notes/sql-or-python.html) | Oct 13, 2026 | [`sql-or-python/`](sql-or-python/) | Live |
+| [Percentiles: the 10th tells you who's suffering](https://davenoel.me/notes/percentiles.html) | Oct 14, 2026 | [`percentiles/`](percentiles/) | Live |
 | [The data that isn't there: Hurricane Beryl](https://davenoel.me/stories/the-data-that-isnt-there.html) | Oct 15, 2026 | [`beryl/`](beryl/) | Live |
-| Same average, different internet: variance | Nov 11, 2026 | [`variance/`](variance/) | Coming soon |
-| Comparing cities fairly: normalization | Nov 18, 2026 | [`normalization/`](normalization/) | Coming soon |
-| Five SQL patterns I use every week | Nov 25, 2026 | [`sql-patterns/`](sql-patterns/) | Coming soon |
 | [Averages lie: Texas edition](https://davenoel.me/notes/averages-lie.html) (an update to the Averages lie note) | Oct 16, 2026 | [`texas-averages/`](texas-averages/) | Live |
+| [How many samples are enough?](https://davenoel.me/notes/how-many-samples.html) | Oct 19, 2026 | [`sample-size/`](sample-size/) | Live |
+| Which samples are you looking at? | Oct 22, 2026 | [`sampling/`](sampling/) | Coming soon |
+| Five SQL patterns I use every week | Oct 26, 2026 | [`sql-patterns/`](sql-patterns/) | Coming soon |
+| How steady is a household's internet? Variance | Oct 29, 2026 | [`variance/`](variance/) | Coming soon |
+| Normalization: per test, per person, per household | Nov 2, 2026 | [`normalization/`](normalization/) | Coming soon |
 
 Shared helpers (data download scripts, chart style) live in [`tools/`](tools/).
 
