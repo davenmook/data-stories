@@ -15,4 +15,4 @@ Change `POWER_SHARE`, `POWER_TESTS` or `POWER_SPEEDUP` at the top to see how far
 
 ## The plain-English answer
 
-Counting every test, the town looks about 50% faster than it really is, because 5% of homes ran 59% of the tests. Giving each home one vote brings the median back within a few percent of the truth. You trade 3,483 tests for 767 homes, and 767 is the honest sample size.
+Counting every test, the town looks 54% faster than it really is, because 5% of homes ran 59% of the tests. Giving each home one vote brings the median back within a few percent of the truth. You trade 3,483 tests for 767 homes, and 767 is the honest sample size.
