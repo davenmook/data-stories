@@ -5,4 +5,5 @@ geopandas>=1.0
 matplotlib>=3.9
 numpy>=1.26
 requests>=2.32
+pdfplumber>=0.11
 jupyter>=1.0

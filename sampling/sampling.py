@@ -45,6 +45,14 @@ def main():
     print(f"median of all tests:                {np.median(sp):.0f} Mbps")
     print(f"median of households (one vote each): {np.median(per_hh):.0f} Mbps")
     print(f"share under 25 Mbps: households {np.mean(plan < 25):.1%}, tests {np.mean(sp < 25):.1%}, one vote each {np.mean(per_hh < 25):.1%}")
+    # inverse probability weighting: each test weighted 1 / (tests from its home)
+    w = 1 / n[hh]; o = np.argsort(sp); c = np.cumsum(w[o])
+    print(f"weighted median of tests (w = 1/m):  {sp[o][np.searchsorted(c, c[-1] / 2)]:.0f} Mbps")
+    # design effect: deff = 1 + (m_bar - 1) * rho, with rho the intraclass correlation (log scale)
+    between = np.var(np.log(plan[tested])); rho = between / (between + TEST_NOISE**2)
+    m_bar = n[tested].mean(); deff = 1 + (m_bar - 1) * rho
+    print(f"tests per home {m_bar:.1f}, rho {rho:.2f}, design effect {deff:.1f}, "
+          f"effective sample size {len(sp) / deff:.0f} (homes that tested: {tested.sum()})")
     print(f"10th pct: households {np.percentile(plan,10):.0f}, tests {np.percentile(sp,10):.0f}, one vote each {np.percentile(per_hh,10):.0f}")
     # repeat: wobble of each estimator across 2000 cities
     m_t, m_h = [], []
