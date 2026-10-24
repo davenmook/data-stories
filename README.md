@@ -13,8 +13,8 @@ Public data only. Every chart and every folder credits its sources.
 | [The data that isn't there: Hurricane Beryl](https://davenoel.me/stories/the-data-that-isnt-there.html) | Oct 15, 2026 | [`beryl/`](beryl/) | Live |
 | [Averages lie: Texas edition](https://davenoel.me/notes/averages-lie.html) (an update to the Averages lie note) | Oct 16, 2026 | [`texas-averages/`](texas-averages/) | Live |
 | [How many samples are enough?](https://davenoel.me/notes/how-many-samples.html) | Oct 19, 2026 | [`sample-size/`](sample-size/) | Live |
-| Which samples are you looking at? | Oct 22, 2026 | [`sampling/`](sampling/) | Coming soon |
-| Five SQL patterns I use every week | Oct 26, 2026 | [`sql-patterns/`](sql-patterns/) | Coming soon |
+| [Which samples are you looking at?](https://davenoel.me/notes/which-samples.html) | Oct 23, 2026 | [`sampling/`](sampling/) | Live |
+| [Five SQL patterns I use every week](https://davenoel.me/notes/five-sql-patterns.html) | Oct 23, 2026 | [`sql-patterns/`](sql-patterns/) | Live |
 | How steady is a household's internet? Variance | Oct 29, 2026 | [`variance/`](variance/) | Coming soon |
 | Normalization: per test, per person, per household | Nov 2, 2026 | [`normalization/`](normalization/) | Coming soon |
 

@@ -1,6 +1,6 @@
 # Five SQL patterns I use every week
 
-**Post:** publishes Oct 26, 2026 on [davenoel.me](https://davenoel.me) (link added when it's live)
+**Post:** [Five SQL patterns I use every week](https://davenoel.me/notes/five-sql-patterns.html), Oct 23, 2026
 
 Five patterns, each with a tiny example on Ookla open data, **fixed tiles**, Texas, 2025, in DuckDB SQL.
 
